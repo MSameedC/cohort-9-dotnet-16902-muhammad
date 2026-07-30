@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "dgSpecHash": "6qiSyRQRf0E=",
+  "success": true,
+  "projectFilePath": "/home/sameed/Documents/GitRepositories/cohort-9-dotnet-16902-muhammad/TaskManagementApp/TaskManagementApp.Api/TaskManagementApp.Api.csproj",
+  "expectedPackageFiles": [
+    "/home/sameed/.nuget/packages/microsoft.aspnetcore.openapi/10.0.10/microsoft.aspnetcore.openapi.10.0.10.nupkg.sha512",
+    "/home/sameed/.nuget/packages/microsoft.openapi/2.0.0/microsoft.openapi.2.0.0.nupkg.sha512",
+    "/home/sameed/.nuget/packages/system.text.json/8.0.5/system.text.json.8.0.5.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "Package 'Microsoft.OpenApi' 2.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc",
+      "projectPath": "/home/sameed/Documents/GitRepositories/cohort-9-dotnet-16902-muhammad/TaskManagementApp/TaskManagementApp.Api/TaskManagementApp.Api.csproj",
+      "warningLevel": 1,
+      "filePath": "/home/sameed/Documents/GitRepositories/cohort-9-dotnet-16902-muhammad/TaskManagementApp/TaskManagementApp.Api/TaskManagementApp.Api.csproj",
+      "libraryId": "Microsoft.OpenApi",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
+}
