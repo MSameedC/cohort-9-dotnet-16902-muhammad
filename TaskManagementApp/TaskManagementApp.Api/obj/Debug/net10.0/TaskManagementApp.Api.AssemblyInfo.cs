@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TaskManagementApp.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a201efc33e1bd7791c260a8bb6f8f5eb5bc7d088")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1a9bb094cc7e66e4e0dfc43b7ea930270ea3cfe4")]
 [assembly: System.Reflection.AssemblyProductAttribute("TaskManagementApp.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TaskManagementApp.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
