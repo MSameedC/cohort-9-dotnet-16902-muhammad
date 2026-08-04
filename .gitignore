@@ -1,0 +1,23 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+
+# Visual Studio / Rider files
+.vs/
+.idea/
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Database files (crucial so you don't commit local SQLite DBs)
+*.db
+*.db-shm
+*.db-wal
+
+# Operating System files
+.DS_Store
+Thumbs.db
