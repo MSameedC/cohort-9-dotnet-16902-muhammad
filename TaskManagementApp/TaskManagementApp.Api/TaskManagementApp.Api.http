@@ -18,3 +18,16 @@ Content-Type: application/json
   "username": "sameed",
   "password": "SecurePassword123"
 }
+
+###
+
+// Unauthorized dummy (Updated route path to match test endpoint)
+GET http://localhost:5156/api/protected/test
+
+###
+
+// Authorized person (Using standard Authorization Bearer header)
+GET http://localhost:5156/api/protected/test
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0ZDE0YTZjZS1lYmY1LTRlODctYWZlYS00NzUzNzQwOWMyMDIiLCJ1bmlxdWVfbmFtZSI6InNhbWVlZCIsInJvbGUiOiJVc2VyIiwibmJmIjoxNzg2MDQ4Nzk0LCJleHAiOjE3ODYxMzUxOTQsImlhdCI6MTc4NjA0ODc5NCwiaXNzIjoiVGFza01hbmFnZW1lbnRBcGkiLCJhdWQiOiJUYXNrTWFuYWdlbWVudENsaWVudCJ9.ZyvVuz9CUieMxkjz5-m6-derKrpj1_IRT7KR2lW3VIc
+
+###

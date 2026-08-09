@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -76,7 +77,7 @@ public class AuthController(ApplicationDbContext context, JwtTokenGenerator jwtT
             // 3. Generate and return JWT token here
             var userToken = jwtTokenGenerator.GenerateToken(user);
             
-            return Ok(new { message = "Login successful!", token = userToken, user = user.Id });
+            return Ok(new { message = "Login successful!", token = userToken, userId = user.Id });
         }
         catch (Exception ex)
         {
