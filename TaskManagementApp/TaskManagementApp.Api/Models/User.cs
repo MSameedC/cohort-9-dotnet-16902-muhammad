@@ -9,4 +9,7 @@ public class User
     public string Role { get; set; } = "User";
     public bool IsEmailVerified { get; set; } = false;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    
+    // Navigation property (A user has many tasks)
+    public ICollection<TaskItem> Tasks { get; set; } = new List<TaskItem>();
 }
