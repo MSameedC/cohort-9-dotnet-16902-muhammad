@@ -1,35 +1,98 @@
-@TaskManagementApp.Api_HostAddress = http://localhost:5156
+@baseUrl = http://localhost:5156
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0ZDE0YTZjZS1lYmY1LTRlODctYWZlYS00NzUzNzQwOWMyMDIiLCJ1bmlxdWVfbmFtZSI6InNhbWVlZCIsInJvbGUiOiJVc2VyIiwibmJmIjoxNzg2MDQ4Nzk0LCJleHAiOjE3ODYxMzUxOTQsImlhdCI6MTc4NjA0ODc5NCwiaXNzIjoiVGFza01hbmFnZW1lbnRBcGkiLCJhdWQiOiJUYXNrTWFuYWdlbWVudENsaWVudCJ9.ZyvVuz9CUieMxkjz5-m6-derKrpj1_IRT7KR2lW3VIc
 
 // Sign up
-POST http://localhost:5156/api/auth/register
+POST {{baseUrl}}/api/auth/register
 Content-Type: application/json
 
 {
-  "username": "sameed",
-  "email": "sameed@test.com",
-  "password": "SecurePassword123"
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "SecurePassword123!"
 }
 
 ###
 
 // Login
-POST http://localhost:5156/api/auth/login
+POST {{baseUrl}}/api/auth/login
 Content-Type: application/json
 
 {
-  "username": "sameed",
-  "password": "SecurePassword123"
+  "username": "testuser",
+  "password": "SecurePassword123!"
 }
 
 ###
 
 // Unauthorized dummy (Updated route path to match test endpoint)
-GET http://localhost:5156/api/protected/test
+GET {{baseUrl}}/api/protected/test
 
 ###
 
 // Authorized person (Using standard Authorization Bearer header)
-GET http://localhost:5156/api/protected/test
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0ZDE0YTZjZS1lYmY1LTRlODctYWZlYS00NzUzNzQwOWMyMDIiLCJ1bmlxdWVfbmFtZSI6InNhbWVlZCIsInJvbGUiOiJVc2VyIiwibmJmIjoxNzg2MDQ4Nzk0LCJleHAiOjE3ODYxMzUxOTQsImlhdCI6MTc4NjA0ODc5NCwiaXNzIjoiVGFza01hbmFnZW1lbnRBcGkiLCJhdWQiOiJUYXNrTWFuYWdlbWVudENsaWVudCJ9.ZyvVuz9CUieMxkjz5-m6-derKrpj1_IRT7KR2lW3VIc
+GET {{baseUrl}}/api/protected/test
+Authorization: Bearer {{token}}
 
 ###
+
+// Register a test user (if you haven't already)
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "SecurePassword123!"
+}
+
+### 
+
+// 2. Login to get your Bearer Token
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "SecurePassword123!"
+}
+
+###
+
+// 3. Create a New Task
+POST {{baseUrl}}/api/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Complete Backend API",
+  "description": "Finish the task management CRUD and test it.",
+  "priority": "High",
+  "dueDate": "2026-08-15T23:59:59Z"
+}
+
+### 
+
+// 4. Get All Tasks for the Logged-in User
+GET {{baseUrl}}/api/tasks
+Authorization: Bearer {{token}}
+
+### 
+
+// 5. Update a Task (Replace the GUID with an actual Task ID from step 4)
+PUT {{baseUrl}}/api/tasks/REPLACE_WITH_TASK_GUID
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Complete Backend API (Updated)",
+  "description": "Finished CRUD and verified everything works.",
+  "status": "InProgress",
+  "priority": "High",
+  "dueDate": "2026-08-15T23:59:59Z"
+}
+
+### 
+
+// 6. Delete a Task (Replace the GUID with a Task ID)
+DELETE {{baseUrl}}/api/tasks/REPLACE_WITH_TASK_GUID
+Authorization: Bearer {{token}}
