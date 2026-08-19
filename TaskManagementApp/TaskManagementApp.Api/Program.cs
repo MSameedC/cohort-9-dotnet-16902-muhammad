@@ -15,6 +15,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<JwtTokenGenerator>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 
+// Add CORS Policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        policy => policy.WithOrigins("http://localhost:5173")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+});
+
 // ----------------------
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -50,6 +59,9 @@ using (var scope = app.Services.CreateScope())
 }
 
 // ----------------------
+
+// MUST be placed before UseAuthentication and MapControllers
+app.UseCors("AllowReactApp");
 
 app.UseAuthentication();
 app.UseAuthorization();

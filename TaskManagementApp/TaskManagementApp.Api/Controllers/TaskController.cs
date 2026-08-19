@@ -8,7 +8,7 @@ namespace TaskManagementApp.Api.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/tasks")]
 public class TaskController(ITaskService taskService) : ControllerBase
 {
     // GET: api/tasks
@@ -32,13 +32,19 @@ public class TaskController(ITaskService taskService) : ControllerBase
     }
     
     // POST: api/tasks
-    [HttpGet]
+    [HttpPost]
     public async Task<ActionResult<TaskResponseDto>> CreateTask([FromBody] CreateTaskDto dto)
     {
-        var (userId, _) = GetUserClaims();
-        var createdTask = await taskService.CreateTaskAsync(dto, userId);
-        
-        return CreatedAtAction(nameof(GetTaskById), new { id = createdTask.Id }, createdTask);
+        try
+        {
+            var (userId, _) = GetUserClaims();
+            var createdTask = await taskService.CreateTaskAsync(dto, userId);
+            return CreatedAtAction(nameof(GetTaskById), new { taskId = createdTask.Id }, createdTask);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = ex.Message, inner = ex.InnerException?.Message });
+        }
     }
     
     // PUT: api/tasks/{id}
