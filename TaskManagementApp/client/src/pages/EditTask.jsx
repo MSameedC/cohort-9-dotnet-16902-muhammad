@@ -76,14 +76,14 @@ export default function EditTask() {
                     </button>
                 </div>
 
-                <form onSubmit={handleUpdate} className="bg-surface border border-border p-6 rounded-xl shadow-lg space-y-5">
+                <form onSubmit={handleUpdate} className="bg-surface border border-border p-6 rounded-2xl shadow-lg space-y-5">
                     <div>
                         <label className="block text-sm font-medium text-text-muted mb-2">Task Title</label>
                         <input
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            className="w-full bg-surface-hover border border-border focus:border-primary outline-none px-4 py-2.5 rounded-lg text-text-main text-sm transition"
+                            className="w-full bg-surface-hover border border-border focus:border-primary-hover focus:ring-1 focus:ring-primary-hover outline-none px-4 py-3 rounded-xl text-text-main placeholder-gray-600 transition"
                             required
                         />
                     </div>
@@ -94,7 +94,7 @@ export default function EditTask() {
                             rows="4"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            className="w-full bg-surface-hover border border-border focus:border-primary outline-none px-4 py-2.5 rounded-lg text-text-main text-sm transition resize-none"
+                            className="w-full bg-surface-hover border border-border focus:border-primary-hover focus:ring-1 focus:ring-primary-hover outline-none px-4 py-3 rounded-xl text-text-main placeholder-gray-600 transition resize-none"
                         />
                     </div>
 
@@ -104,7 +104,7 @@ export default function EditTask() {
                             type="datetime-local"
                             value={dueDate}
                             onChange={(e) => setDueDate(e.target.value)}
-                            className="w-full bg-surface-hover border border-border focus:border-primary outline-none px-4 py-2.5 rounded-lg text-text-main text-sm transition"
+                            className="w-full bg-surface-hover border border-border focus:border-primary-hover focus:ring-1 focus:ring-primary-hover outline-none px-4 py-3 rounded-xl text-text-main transition"
                         />
                     </div>
 
@@ -112,14 +112,14 @@ export default function EditTask() {
                         <button
                             type="submit"
                             disabled={submitting}
-                            className="flex-1 bg-primary hover:bg-primary-hover text-white font-medium py-2.5 rounded-lg text-sm transition shadow-lg shadow-indigo-600/20 disabled:opacity-50"
+                            className="flex-1 bg-primary hover:bg-primary-hover text-white font-medium py-3 rounded-xl transition shadow-lg shadow-primary/20 disabled:opacity-50"
                         >
                             {submitting ? 'Updating...' : 'Save Changes'}
                         </button>
                         <button
                             type="button"
                             onClick={() => navigate('/dashboard')}
-                            className="bg-surface hover:bg-surface-hover text-text-muted hover:text-text-main border border-border px-6 py-2.5 rounded-lg text-sm font-medium transition"
+                            className="bg-surface hover:bg-surface-hover text-text-muted px-6 py-3 rounded-xl font-medium transition"
                         >
                             Cancel
                         </button>

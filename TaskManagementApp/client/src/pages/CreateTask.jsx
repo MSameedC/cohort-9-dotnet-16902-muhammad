@@ -29,21 +29,21 @@ export default function CreateTask() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-950 text-text-main py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-app-bg text-text-main py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-xl mx-auto space-y-6">
                 <div className="flex items-center justify-between">
                     <h1 className="text-xl font-semibold">
                         Create New Task
                     </h1>
                     <button
-                        onClick={() => navigate('/')}
+                        onClick={() => navigate('/dashboard')}
                         className="text-sm text-text-muted hover:text-text-main transition"
                     >
                         ← Back to Dashboard
                     </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="bg-gray-900 border border-gray-800 p-6 rounded-2xl shadow-lg space-y-5">
+                <form onSubmit={handleSubmit} className="bg-surface border border-border p-6 rounded-2xl shadow-lg space-y-5">
                     <div>
                         <label className="block text-sm font-medium text-text-muted mb-2">Task Title</label>
                         <input
@@ -51,7 +51,7 @@ export default function CreateTask() {
                             placeholder="e.g., Complete backend integration"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            className="w-full bg-surface-hover border border-gray-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none px-4 py-3 rounded-xl text-text-main placeholder-gray-600 transition"
+                            className="w-full bg-surface-hover border border-border focus:border-primary-hover focus:ring-1 focus:ring-primary-hover outline-none px-4 py-3 rounded-xl text-text-main placeholder-gray-600 transition"
                             required
                         />
                     </div>
@@ -63,7 +63,7 @@ export default function CreateTask() {
                             rows="4"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            className="w-full bg-surface-hover border border-gray-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none px-4 py-3 rounded-xl text-text-main placeholder-gray-600 transition resize-none"
+                            className="w-full bg-surface-hover border border-border focus:border-primary-hover focus:ring-1 focus:ring-primary-hover outline-none px-4 py-3 rounded-xl text-text-main placeholder-gray-600 transition resize-none"
                         />
                     </div>
 
@@ -73,7 +73,7 @@ export default function CreateTask() {
                             type="datetime-local"
                             value={dueDate}
                             onChange={(e) => setDueDate(e.target.value)}
-                            className="w-full bg-surface-hover border border-gray-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none px-4 py-3 rounded-xl text-text-main transition"
+                            className="w-full bg-surface-hover border border-border focus:border-primary-hover focus:ring-1 focus:ring-primary-hover outline-none px-4 py-3 rounded-xl text-text-main transition"
                         />
                     </div>
 
@@ -81,14 +81,14 @@ export default function CreateTask() {
                         <button
                             type="submit"
                             disabled={submitting}
-                            className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition shadow-lg shadow-indigo-600/20 disabled:opacity-50"
+                            className="flex-1 bg-primary hover:bg-primary-hover text-white font-medium py-3 rounded-xl transition shadow-lg shadow-primary/20 disabled:opacity-50"
                         >
                             {submitting ? 'Creating...' : 'Save Task'}
                         </button>
                         <button
                             type="button"
                             onClick={() => navigate('/')}
-                            className="bg-gray-800 hover:bg-gray-700 text-text-muted px-6 py-3 rounded-xl font-medium transition"
+                            className="bg-surface hover:bg-surface-hover text-text-muted px-6 py-3 rounded-xl font-medium transition"
                         >
                             Cancel
                         </button>

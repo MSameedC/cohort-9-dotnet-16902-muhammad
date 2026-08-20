@@ -39,7 +39,7 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="min-h-screen bg-app-bg text-text-main py-8 px-4 max-w-2xl mx-auto">
+        <div className="min-h-screen bg-app-bg text-text-main py-12 px-4 sm:px-6 lg:px-8">
 
             {/* Header */}
             <div className="flex justify-between items-center mb-8 pb-4 border-b border-border">

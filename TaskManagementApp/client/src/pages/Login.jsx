@@ -49,7 +49,7 @@ export default function Login() {
 
                 <button
                     type="submit"
-                    className="w-full mt-6 bg-primary hover:bg-primary-hover text-white p-2.5 rounded-lg text-sm font-medium transition shadow-lg shadow-indigo-600/20"
+                    className="w-full mt-6 bg-primary hover:bg-primary-hover text-white p-2.5 rounded-lg text-sm font-medium transition shadow-lg shadow-primary/20"
                 >
                     Sign In
                 </button>
