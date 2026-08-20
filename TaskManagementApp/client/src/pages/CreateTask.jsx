@@ -29,15 +29,15 @@ export default function CreateTask() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-950 text-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gray-950 text-text-main py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-xl mx-auto space-y-6">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+                    <h1 className="text-xl font-semibold">
                         Create New Task
                     </h1>
                     <button
                         onClick={() => navigate('/')}
-                        className="text-sm text-gray-400 hover:text-white transition"
+                        className="text-sm text-text-muted hover:text-text-main transition"
                     >
                         ← Back to Dashboard
                     </button>
@@ -45,35 +45,35 @@ export default function CreateTask() {
 
                 <form onSubmit={handleSubmit} className="bg-gray-900 border border-gray-800 p-6 rounded-2xl shadow-lg space-y-5">
                     <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">Task Title</label>
+                        <label className="block text-sm font-medium text-text-muted mb-2">Task Title</label>
                         <input
                             type="text"
                             placeholder="e.g., Complete backend integration"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            className="w-full bg-gray-950 border border-gray-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none px-4 py-3 rounded-xl text-white placeholder-gray-600 transition"
+                            className="w-full bg-surface-hover border border-gray-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none px-4 py-3 rounded-xl text-text-main placeholder-gray-600 transition"
                             required
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">Description</label>
+                        <label className="block text-sm font-medium text-text-muted mb-2">Description</label>
                         <textarea
                             placeholder="Add implementation details or context..."
                             rows="4"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            className="w-full bg-gray-950 border border-gray-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none px-4 py-3 rounded-xl text-white placeholder-gray-600 transition resize-none"
+                            className="w-full bg-surface-hover border border-gray-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none px-4 py-3 rounded-xl text-text-main placeholder-gray-600 transition resize-none"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">Due Date & Time</label>
+                        <label className="block text-sm font-medium text-text-muted mb-2">Due Date & Time</label>
                         <input
                             type="datetime-local"
                             value={dueDate}
                             onChange={(e) => setDueDate(e.target.value)}
-                            className="w-full bg-gray-950 border border-gray-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none px-4 py-3 rounded-xl text-white transition"
+                            className="w-full bg-surface-hover border border-gray-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none px-4 py-3 rounded-xl text-text-main transition"
                         />
                     </div>
 
@@ -88,7 +88,7 @@ export default function CreateTask() {
                         <button
                             type="button"
                             onClick={() => navigate('/')}
-                            className="bg-gray-800 hover:bg-gray-700 text-gray-300 px-6 py-3 rounded-xl font-medium transition"
+                            className="bg-gray-800 hover:bg-gray-700 text-text-muted px-6 py-3 rounded-xl font-medium transition"
                         >
                             Cancel
                         </button>

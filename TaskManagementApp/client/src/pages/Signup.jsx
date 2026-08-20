@@ -22,16 +22,16 @@ export default function Signup() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
-            <form onSubmit={handleSignup} className="bg-gray-800 p-8 rounded-lg border border-gray-700 w-96">
-                <h2 className="text-2xl font-bold mb-6">Create Account</h2>
+        <div className="min-h-screen bg-app-bg text-text-main flex items-center justify-center">
+            <form onSubmit={handleSignup} className="bg-surface p-8 rounded-lg border border-gray-700 w-96">
+                <h2 className="text-xl font-semibold mb-6">Create Account</h2>
 
                 <input
                     type="text"
                     placeholder="Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="w-full bg-gray-900 border border-gray-700 p-2 rounded mb-4 text-white"
+                    className="w-full bg-surface-hover border border-gray-700 p-2 rounded mb-4 text-text-main"
                     required
                 />
 
@@ -42,7 +42,7 @@ export default function Signup() {
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-gray-900 border border-gray-700 p-2 rounded mb-4 text-white"
+                    className="w-full bg-surface-hover border border-gray-700 p-2 rounded mb-4 text-text-main"
                     required
                 />
 
@@ -53,13 +53,13 @@ export default function Signup() {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-gray-900 border border-gray-700 p-2 rounded mb-6 text-white"
+                    className="w-full bg-surface-hover border border-gray-700 p-2 rounded mb-6 text-text-main"
                     required
                 />
                 
                 <br/>
 
-                <button type="submit" className="w-full bg-indigo-600 p-2 rounded hover:bg-indigo-700 transition mb-4">
+                <button type="submit" className="w-full mb-6 bg-primary hover:bg-primary-hover text-text-main p-2.5 rounded-lg text-sm font-medium transition shadow-lg shadow-indigo-600/20">
                     Sign Up
                 </button>
 
@@ -68,7 +68,7 @@ export default function Signup() {
                     <button
                         type="button"
                         onClick={() => navigate('/login')}
-                        className="text-indigo-400 hover:underline"
+                        className="text-primary hover:text-primary-hover"
                     >
                         Log in
                     </button>

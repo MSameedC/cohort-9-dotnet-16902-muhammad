@@ -1,19 +1,31 @@
 import api from '../api/axios';
 
 export const taskService = {
-    // Equivalent to a GET request to retrieve a list of records
+    // GET: api/tasks
     async getTasks() {
         const response = await api.get('/tasks');
         return response.data;
     },
 
-    // Equivalent to a POST request to send new data to the server
+    // GET: api/tasks/{id}
+    async getTaskById(id) {
+        const response = await api.get(`/tasks/${id}`);
+        return response.data;
+    },
+
+    // POST: api/tasks
     async createTask(taskData) {
         const response = await api.post('/tasks', taskData);
         return response.data;
     },
 
-    // Equivalent to a DELETE request to remove a record by ID
+    // PUT: api/tasks/{id}
+    async updateTask(id, taskData) {
+        const response = await api.put(`/tasks/${id}`, taskData);
+        return response.data;
+    },
+
+    // DELETE: api/tasks/{id}
     async deleteTask(id) {
         const response = await api.delete(`/tasks/${id}`);
         return response.data;

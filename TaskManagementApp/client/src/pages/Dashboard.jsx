@@ -32,112 +32,97 @@ export default function Dashboard() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-950 text-gray-400 flex items-center justify-center">
-                <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-                    <span>Loading workspace...</span>
-                </div>
+            <div className="min-h-screen bg-app-bg text-text-muted flex items-center justify-center">
+                <p>Loading...</p>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-950 text-gray-100 py-10 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto space-y-8">
+        <div className="min-h-screen bg-app-bg text-text-main py-8 px-4 max-w-2xl mx-auto">
 
-                {/* Header */}
-                <header className="flex justify-between items-center bg-gray-900 border border-gray-800 p-6 rounded-2xl shadow-lg">
-                    <div>
-                        <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
-                            Task Dashboard
-                        </h1>
-                        <p className="text-sm text-gray-400 mt-1">Manage your schedule and deadlines</p>
-                    </div>
-                    <div className="flex items-center gap-3">
+            {/* Header */}
+            <div className="flex justify-between items-center mb-8 pb-4 border-b border-border">
+                <div>
+                    <h1 className="text-xl font-semibold">Dashboard</h1>
+                    <p className="text-sm text-text-muted">Manage your tasks</p>
+                </div>
+                <div className="flex items-center gap-3">
+                    <button
+                        onClick={() => navigate('/tasks/new')}
+                        className="bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+                    >
+                        New Task
+                    </button>
+                    <button
+                        onClick={handleLogout}
+                        className="text-text-muted hover:text-red-400 text-sm font-medium transition"
+                    >
+                        Sign Out
+                    </button>
+                </div>
+            </div>
+
+            {/* Task List Section */}
+            <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                    <h2 className="text-sm font-medium text-text-muted uppercase tracking-wider">Your Tasks ({tasks.length})</h2>
+                </div>
+
+                {tasks.length === 0 ? (
+                    <div className="text-center py-12 bg-surface/30 border border-border rounded-xl">
+                        <p className="text-text-muted text-sm mb-3">No tasks found.</p>
                         <button
                             onClick={() => navigate('/tasks/new')}
-                            className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-sm font-medium transition duration-200 shadow-lg shadow-indigo-600/20"
+                            className="bg-surface hover:bg-surface-hover text-white px-3 py-1.5 rounded-lg text-xs font-medium border border-border transition"
                         >
-                            + New Task
-                        </button>
-                        <button
-                            onClick={handleLogout}
-                            className="bg-gray-800 hover:bg-red-600/20 text-gray-300 hover:text-red-400 border border-gray-700 hover:border-red-500/50 px-4 py-2 rounded-xl text-sm font-medium transition"
-                        >
-                            Sign Out
+                            Create your first task
                         </button>
                     </div>
-                </header>
-
-                {/* Task List Section */}
-                <section className="space-y-4">
-                    <div className="flex justify-between items-center px-1">
-                        <h2 className="text-lg font-semibold text-gray-200">Your Tasks</h2>
-                        <span className="text-xs font-medium bg-gray-800 text-gray-400 px-2.5 py-1 rounded-full border border-gray-700">
-                            {tasks.length} {tasks.length === 1 ? 'Task' : 'Tasks'}
-                        </span>
-                    </div>
-
-                    {tasks.length === 0 ? (
-                        <div className="text-center py-16 bg-gray-900/50 border border-gray-800/80 rounded-2xl">
-                            <p className="text-gray-400 font-medium">No tasks found</p>
-                            <p className="text-sm text-gray-600 mt-1 mb-4">Get started by creating your first task.</p>
-                            <button
-                                onClick={() => navigate('/tasks/new')}
-                                className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-sm font-medium transition"
+                ) : (
+                    <div className="space-y-3">
+                        {tasks.map((task) => (
+                            <div
+                                key={task.id}
+                                className="bg-surface border border-border p-4 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
                             >
-                                Create Task
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="grid gap-4">
-                            {tasks.map((task) => (
-                                <div
-                                    key={task.id}
-                                    className="bg-gray-900 border border-gray-800 p-5 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-gray-700 transition duration-200"
-                                >
-                                    <div className="space-y-2 flex-1">
-                                        <h3 className="font-semibold text-base text-gray-100">{task.title}</h3>
-                                        {task.description && (
-                                            <p className="text-gray-400 text-sm leading-relaxed">{task.description}</p>
-                                        )}
-                                        {task.dueDate && (
-                                            <div className="flex items-center gap-2 text-xs text-indigo-400 font-medium pt-1">
-                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                                </svg>
-                                                <span>Due: {new Date(task.dueDate).toLocaleString()}</span>
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    <div className="flex items-center gap-2 self-end sm:self-center">
-                                        <button
-                                            onClick={() => navigate(`/tasks/edit/${task.id}`)}
-                                            className="bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700 px-3.5 py-1.5 rounded-xl text-sm font-medium transition"
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            onClick={async () => {
-                                                try {
-                                                    await taskService.deleteTask(task.id);
-                                                    fetchTasks();
-                                                } catch (error) {
-                                                    console.error('Failed to delete task:', error);
-                                                }
-                                            }}
-                                            className="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 px-3.5 py-1.5 rounded-xl text-sm font-medium transition"
-                                        >
-                                            Delete
-                                        </button>
-                                    </div>
+                                <div className="space-y-1">
+                                    <h3 className="font-medium text-text-main">{task.title}</h3>
+                                    {task.description && (
+                                        <p className="text-text-muted text-sm">{task.description}</p>
+                                    )}
+                                    {task.dueDate && (
+                                        <p className="text-xs text-indigo-400 pt-1">
+                                            Due: {new Date(task.dueDate).toLocaleString()}
+                                        </p>
+                                    )}
                                 </div>
-                            ))}
-                        </div>
-                    )}
-                </section>
 
+                                <div className="flex items-center gap-2 self-end sm:self-center">
+                                    <button
+                                        onClick={() => navigate(`/tasks/edit/${task.id}`)}
+                                        className="text-text-muted hover:text-white bg-surface hover:bg-surface-hover border border-border px-3 py-1 rounded-lg text-xs font-medium transition"
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        onClick={async () => {
+                                            try {
+                                                await taskService.deleteTask(task.id);
+                                                fetchTasks();
+                                            } catch (error) {
+                                                console.error('Failed to delete task:', error);
+                                            }
+                                        }}
+                                        className="text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 px-3 py-1 rounded-lg text-xs font-medium transition"
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );
