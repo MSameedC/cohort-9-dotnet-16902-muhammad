@@ -84,4 +84,30 @@ public class AuthController(ApplicationDbContext context, JwtTokenGenerator jwtT
             return StatusCode(500, new { message = "An error occurred", error = ex.Message });
         }
     }
+    
+    [Authorize]
+    [HttpGet("me")]
+    public async Task<IActionResult> GetCurrentUser()
+    {
+        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var parsedUserId))
+        {
+            return Unauthorized(new { message = "Invalid token claims." });
+        }
+
+        var user = await context.Users.FindAsync(parsedUserId);
+        if (user == null)
+        {
+            return NotFound(new { message = "User not found." });
+        }
+
+        return Ok(new
+        {
+            id = user.Id,
+            username = user.Username,
+            email = user.Email,
+            role = user.Role,
+            createdAt = user.CreatedAt
+        });
+    }
 }

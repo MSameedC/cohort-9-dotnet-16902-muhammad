@@ -4,6 +4,7 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import CreateTask from './pages/CreateTask';
 import EditTask from './pages/EditTask';
+import UserProfile from './pages/UserProfile';
 import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
                 <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/tasks/new" element={<ProtectedRoute><CreateTask /></ProtectedRoute>} />
                 <Route path="/tasks/edit/:id" element={<ProtectedRoute><EditTask /></ProtectedRoute>} />
+                <Route path="/profile" element={<UserProfile />} />
 
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>

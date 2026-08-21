@@ -5,7 +5,20 @@ import { useNavigate } from 'react-router-dom';
 export default function Dashboard() {
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [filter, setFilter] = useState('All'); // Options: 'All', 'Pending', 'InProgress', 'Completed'
     const navigate = useNavigate();
+
+    const completedCount = tasks.filter(t => t.status === 1 || t.status === 'Completed').length;
+    const inProgressCount = tasks.filter(t => t.status === 2 || t.status === 'InProgress').length;
+    const pendingCount = tasks.filter(t => t.status === 0 || t.status === 'Pending').length;
+
+    const filteredTasks = tasks.filter((task) => {
+        if (filter === 'All') return true;
+        if (filter === 'Pending') return task.status === 0 || task.status === 'Pending';
+        if (filter === 'InProgress') return task.status === 2 || task.status === 'InProgress';
+        if (filter === 'Completed') return task.status === 1 || task.status === 'Completed';
+        return true;
+    });
 
     useEffect(() => {
         fetchTasks();
@@ -40,6 +53,7 @@ export default function Dashboard() {
 
     return (
         <div className="min-h-screen bg-app-bg text-text-main py-12 px-4 sm:px-6 lg:px-8">
+            
 
             {/* Header */}
             <div className="flex justify-between items-center mb-8 pb-4 border-b border-border">
@@ -60,16 +74,55 @@ export default function Dashboard() {
                     >
                         Sign Out
                     </button>
+                    <button
+                        onClick={() => navigate('/profile')}
+                        className="text-text-muted hover:text-text-main text-sm font-medium transition"
+                    >
+                        Profile
+                    </button>
                 </div>
+            </div>
+
+            {/* Dashboard Metric Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                <div className="bg-surface border border-border p-4 rounded-xl">
+                    <p className="text-sm text-text-muted">Pending Tasks</p>
+                    <p className="text-2xl font-semibold text-yellow-400 mt-1">{pendingCount}</p>
+                </div>
+                <div className="bg-surface border border-border p-4 rounded-xl">
+                    <p className="text-sm text-text-muted">In Progress</p>
+                    <p className="text-2xl font-semibold text-blue-400 mt-1">{inProgressCount}</p>
+                </div>
+                <div className="bg-surface border border-border p-4 rounded-xl">
+                    <p className="text-sm text-text-muted">Completed</p>
+                    <p className="text-2xl font-semibold text-green-400 mt-1">{completedCount}</p>
+                </div>
+            </div>
+
+            {/* Filter Bar */}
+            <div className="flex gap-2 mb-4">
+                {['All', 'Pending', 'InProgress', 'Completed'].map((statusOption) => (
+                    <button
+                        key={statusOption}
+                        onClick={() => setFilter(statusOption)}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-medium transition border ${
+                            filter === statusOption
+                                ? 'bg-primary border-primary text-white'
+                                : 'bg-surface border-border text-text-muted hover:text-text-main'
+                        }`}
+                    >
+                        {statusOption}
+                    </button>
+                ))}
             </div>
 
             {/* Task List Section */}
             <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                    <h2 className="text-sm font-medium text-text-muted uppercase tracking-wider">Your Tasks ({tasks.length})</h2>
+                    <h2 className="text-sm font-medium text-text-muted uppercase tracking-wider">Your Tasks ({filteredTasks.length})</h2>
                 </div>
 
-                {tasks.length === 0 ? (
+                {filteredTasks.length === 0 ? (
                     <div className="text-center py-12 bg-surface/30 border border-border rounded-xl">
                         <p className="text-text-muted text-sm mb-3">No tasks found.</p>
                         <button
@@ -81,7 +134,7 @@ export default function Dashboard() {
                     </div>
                 ) : (
                     <div className="space-y-3">
-                        {tasks.map((task) => (
+                        {filteredTasks.map((task) => (
                             <div
                                 key={task.id}
                                 className="bg-surface border border-border p-4 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"

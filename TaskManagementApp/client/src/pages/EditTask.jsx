@@ -8,6 +8,7 @@ export default function EditTask() {
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [priority, setPriority] = useState(1);
     const [dueDate, setDueDate] = useState('');
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
@@ -96,6 +97,19 @@ export default function EditTask() {
                             onChange={(e) => setDescription(e.target.value)}
                             className="w-full bg-surface-hover border border-border focus:border-primary-hover focus:ring-1 focus:ring-primary-hover outline-none px-4 py-3 rounded-xl text-text-main placeholder-gray-600 transition resize-none"
                         />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-text-muted mb-2">Priority</label>
+                        <select
+                            value={priority}
+                            onChange={(e) => setPriority(Number(e.target.value))}
+                            className="w-full bg-surface-hover border border-border focus:border-primary-hover outline-none px-4 py-3 rounded-xl text-text-main transition"
+                        >
+                            <option value={0}>Low</option>
+                            <option value={1}>Normal</option>
+                            <option value={2}>High</option>
+                        </select>
                     </div>
 
                     <div>
