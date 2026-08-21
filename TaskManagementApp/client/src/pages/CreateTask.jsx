@@ -5,6 +5,7 @@ import { taskService } from '../services/taskService';
 export default function CreateTask() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [priority, setPriority] = useState(1);
     const [dueDate, setDueDate] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const navigate = useNavigate();
@@ -18,9 +19,10 @@ export default function CreateTask() {
             await taskService.createTask({
                 title,
                 description,
+                priority,
                 dueDate: dueDate ? new Date(dueDate).toISOString() : null
             });
-            navigate('/');
+            navigate('/dashboard');
         } catch (error) {
             console.error('Failed to create task:', error);
         } finally {
@@ -68,6 +70,19 @@ export default function CreateTask() {
                     </div>
 
                     <div>
+                        <label className="block text-sm font-medium text-text-muted mb-2">Priority</label>
+                        <select
+                            value={priority}
+                            onChange={(e) => setPriority(Number(e.target.value))}
+                            className="w-full bg-surface-hover border border-border focus:border-primary-hover outline-none px-4 py-3 rounded-xl text-text-main transition"
+                        >
+                            <option value={0}>Low</option>
+                            <option value={1}>Normal</option>
+                            <option value={2}>High</option>
+                        </select>
+                    </div>
+
+                    <div>
                         <label className="block text-sm font-medium text-text-muted mb-2">Due Date & Time</label>
                         <input
                             type="datetime-local"
@@ -87,7 +102,7 @@ export default function CreateTask() {
                         </button>
                         <button
                             type="button"
-                            onClick={() => navigate('/')}
+                            onClick={() => navigate('/dashboard')}
                             className="bg-surface hover:bg-surface-hover text-text-muted px-6 py-3 rounded-xl font-medium transition"
                         >
                             Cancel

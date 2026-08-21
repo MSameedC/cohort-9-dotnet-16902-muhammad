@@ -7,6 +7,10 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+    const completedCount = tasks.filter(t => t.status === 1 || t.status === 'Completed').length;
+    const inProgressCount = tasks.filter(t => t.status === 2 || t.status === 'InProgress').length;
+    const pendingCount = tasks.filter(t => t.status === 0 || t.status === 'Pending').length;
+
     useEffect(() => {
         fetchTasks();
     }, []);
@@ -40,6 +44,7 @@ export default function Dashboard() {
 
     return (
         <div className="min-h-screen bg-app-bg text-text-main py-12 px-4 sm:px-6 lg:px-8">
+            
 
             {/* Header */}
             <div className="flex justify-between items-center mb-8 pb-4 border-b border-border">
@@ -60,6 +65,28 @@ export default function Dashboard() {
                     >
                         Sign Out
                     </button>
+                    <button
+                        onClick={() => navigate('/profile')}
+                        className="text-text-muted hover:text-text-main text-sm font-medium transition"
+                    >
+                        Profile
+                    </button>
+                </div>
+            </div>
+
+            {/* Dashboard Metric Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                <div className="bg-surface border border-border p-4 rounded-xl">
+                    <p className="text-sm text-text-muted">Pending Tasks</p>
+                    <p className="text-2xl font-semibold text-yellow-400 mt-1">{pendingCount}</p>
+                </div>
+                <div className="bg-surface border border-border p-4 rounded-xl">
+                    <p className="text-sm text-text-muted">In Progress</p>
+                    <p className="text-2xl font-semibold text-blue-400 mt-1">{inProgressCount}</p>
+                </div>
+                <div className="bg-surface border border-border p-4 rounded-xl">
+                    <p className="text-sm text-text-muted">Completed</p>
+                    <p className="text-2xl font-semibold text-green-400 mt-1">{completedCount}</p>
                 </div>
             </div>
 
