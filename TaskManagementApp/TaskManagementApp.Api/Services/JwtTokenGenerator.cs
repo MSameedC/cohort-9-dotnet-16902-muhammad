@@ -22,7 +22,7 @@ public class JwtTokenGenerator(IConfiguration configuration)
         var credentials = new SigningCredentials(
             new SymmetricSecurityKey(key),
             SecurityAlgorithms.HmacSha256
-            );
+        );
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {

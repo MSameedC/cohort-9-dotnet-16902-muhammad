@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,19 +20,13 @@ public class AuthController(ApplicationDbContext context, JwtTokenGenerator jwtT
         try
         {
             // Basic Validation
-            if (context.Users.Any(u => u.Email == dto.Email))
-            {
-                return BadRequest("Email already in use");
-            }
+            if (context.Users.Any(u => u.Email == dto.Email)) return BadRequest("Email already in use");
 
-            if (context.Users.Any(u => u.Username == dto.Username))
-            {
-                return BadRequest("Username already in use");
-            }
-            
+            if (context.Users.Any(u => u.Username == dto.Username)) return BadRequest("Username already in use");
+
             var passwordHasher = new PasswordHasher<User>();
             var hashedPassword = passwordHasher.HashPassword(null!, dto.Password);
-            
+
             var user = new User
             {
                 Username = dto.Username,
@@ -39,7 +34,7 @@ public class AuthController(ApplicationDbContext context, JwtTokenGenerator jwtT
                 PasswordHash = hashedPassword,
                 Role = "User",
                 IsEmailVerified = false,
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.UtcNow
             };
 
             context.Users.Add(user);
@@ -52,7 +47,7 @@ public class AuthController(ApplicationDbContext context, JwtTokenGenerator jwtT
             return StatusCode(500, new { message = "An error occurred", error = ex.Message });
         }
     }
-    
+
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto dto)
     {
@@ -60,23 +55,18 @@ public class AuthController(ApplicationDbContext context, JwtTokenGenerator jwtT
         {
             // 1. Find user by username
             var user = await context.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
-            if (user == null)
-            {
-                return Unauthorized(new { message = "Invalid username or password" });
-            }
-            
+            if (user == null) return Unauthorized(new { message = "Invalid username or password" });
+
             // 2. Verify the Password hash
             var passwordHasher = new PasswordHasher<User>();
             var result = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
 
             if (result == PasswordVerificationResult.Failed)
-            {
                 return Unauthorized(new { message = "Invalid username or password" });
-            }
-            
+
             // 3. Generate and return JWT token here
             var userToken = jwtTokenGenerator.GenerateToken(user);
-            
+
             return Ok(new { message = "Login successful!", token = userToken, userId = user.Id });
         }
         catch (Exception ex)
@@ -84,22 +74,17 @@ public class AuthController(ApplicationDbContext context, JwtTokenGenerator jwtT
             return StatusCode(500, new { message = "An error occurred", error = ex.Message });
         }
     }
-    
+
     [Authorize]
     [HttpGet("me")]
     public async Task<IActionResult> GetCurrentUser()
     {
-        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var parsedUserId))
-        {
             return Unauthorized(new { message = "Invalid token claims." });
-        }
 
         var user = await context.Users.FindAsync(parsedUserId);
-        if (user == null)
-        {
-            return NotFound(new { message = "User not found." });
-        }
+        if (user == null) return NotFound(new { message = "User not found." });
 
         return Ok(new
         {

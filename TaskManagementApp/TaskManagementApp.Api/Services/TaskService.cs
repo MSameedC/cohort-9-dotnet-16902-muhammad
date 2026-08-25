@@ -11,13 +11,10 @@ public class TaskService(ApplicationDbContext context) : ITaskService
     public async Task<IEnumerable<TaskResponseDto>> GetAllTasksAsync(Guid userId, string userRole)
     {
         IQueryable<TaskItem> query = context.Tasks;
-        
+
         // If not an admin, restrict tasks to only the logged-in user
-        if (userRole != "Admin")
-        {
-            query = query.Where(x => x.UserId == userId);
-        }
-        
+        if (userRole != "Admin") query = query.Where(x => x.UserId == userId);
+
         return await query.Select(t => new TaskResponseDto
         {
             Id = t.Id,
@@ -25,7 +22,7 @@ public class TaskService(ApplicationDbContext context) : ITaskService
             Description = t.Description,
             Status = t.Status,
             Priority = t.Priority,
-            DueDate =  t.DueDate,
+            DueDate = t.DueDate,
             UserId = t.UserId
         }).ToListAsync();
     }
@@ -34,7 +31,7 @@ public class TaskService(ApplicationDbContext context) : ITaskService
     {
         var task = await context.Tasks.FindAsync(taskId);
         if (task == null) return null;
-        
+
         // Check ownership if not admin
         if (userRole != "Admin" && task.UserId != userId) return null;
 

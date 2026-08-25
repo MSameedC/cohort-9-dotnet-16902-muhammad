@@ -5,12 +5,11 @@ namespace TaskManagementApp.Api.Dtos;
 
 public class CreateTaskDto
 {
-    [Required]
-    [MaxLength(100)]
-    public string Title { get; set; } = String.Empty;
-    public string? Description { get; set; } = String.Empty;
-    
+    [Required] [MaxLength(100)] public string Title { get; set; } = string.Empty;
+
+    public string? Description { get; set; } = string.Empty;
+
     public Priority Priority { get; set; } = Priority.Normal;
-    
+
     public DateTime? DueDate { get; set; }
 }

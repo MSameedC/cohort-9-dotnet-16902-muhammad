@@ -18,7 +18,7 @@ export default function App() {
                 <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/tasks/new" element={<ProtectedRoute><CreateTask /></ProtectedRoute>} />
                 <Route path="/tasks/edit/:id" element={<ProtectedRoute><EditTask /></ProtectedRoute>} />
-                <Route path="/profile" element={<UserProfile />} />
+                <Route path="/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
 
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>

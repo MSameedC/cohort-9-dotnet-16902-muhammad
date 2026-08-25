@@ -9,6 +9,7 @@ export default function EditTask() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [priority, setPriority] = useState(1);
+    const [status, setStatus] = useState(0);
     const [dueDate, setDueDate] = useState('');
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
@@ -16,12 +17,13 @@ export default function EditTask() {
     useEffect(() => {
         const fetchTask = async () => {
             try {
-                // Direct call to fetch the single task using the Guid from the route
                 const currentTask = await taskService.getTaskById(id);
 
                 if (currentTask) {
                     setTitle(currentTask.title || '');
                     setDescription(currentTask.description || '');
+                    setPriority(currentTask.priority ?? 1);
+                    setStatus(currentTask.status ?? 0);
                     if (currentTask.dueDate) {
                         setDueDate(new Date(currentTask.dueDate).toISOString().slice(0, 16));
                     }
@@ -44,6 +46,8 @@ export default function EditTask() {
             await taskService.updateTask(id, {
                 title,
                 description,
+                priority,
+                status,
                 dueDate: dueDate ? new Date(dueDate).toISOString() : null
             });
             navigate('/dashboard');
@@ -99,17 +103,32 @@ export default function EditTask() {
                         />
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-text-muted mb-2">Priority</label>
-                        <select
-                            value={priority}
-                            onChange={(e) => setPriority(Number(e.target.value))}
-                            className="w-full bg-surface-hover border border-border focus:border-primary-hover outline-none px-4 py-3 rounded-xl text-text-main transition"
-                        >
-                            <option value={0}>Low</option>
-                            <option value={1}>Normal</option>
-                            <option value={2}>High</option>
-                        </select>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-text-muted mb-2">Priority</label>
+                            <select
+                                value={priority}
+                                onChange={(e) => setPriority(Number(e.target.value))}
+                                className="w-full bg-surface-hover border border-border focus:border-primary-hover outline-none px-4 py-3 rounded-xl text-text-main transition"
+                            >
+                                <option value={0}>Low</option>
+                                <option value={1}>Normal</option>
+                                <option value={2}>High</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-text-muted mb-2">Status</label>
+                            <select
+                                value={status}
+                                onChange={(e) => setStatus(Number(e.target.value))}
+                                className="w-full bg-surface-hover border border-border focus:border-primary-hover outline-none px-4 py-3 rounded-xl text-text-main transition"
+                            >
+                                <option value={0}>Pending</option>
+                                <option value={1}>Completed</option>
+                                <option value={2}>In Progress</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div>
