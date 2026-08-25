@@ -25,7 +25,7 @@ export default function EditTask() {
                     setPriority(currentTask.priority ?? 1);
                     setStatus(currentTask.status ?? 0);
                     if (currentTask.dueDate) {
-                        setDueDate(new Date(currentTask.dueDate).toISOString().slice(0, 16));
+                        setDueDate(new Date(currentTask.dueDate).toISOString().slice(0, 10));
                     }
                 }
             } catch (error) {
@@ -39,7 +39,7 @@ export default function EditTask() {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
-        if (!title.trim()) return;
+        if (!title.trim() || !dueDate) return;
 
         setSubmitting(true);
         try {
@@ -48,7 +48,7 @@ export default function EditTask() {
                 description,
                 priority,
                 status,
-                dueDate: dueDate ? new Date(dueDate).toISOString() : null
+                dueDate: new Date(dueDate).toISOString()
             });
             navigate('/dashboard');
         } catch (error) {
@@ -125,19 +125,22 @@ export default function EditTask() {
                                 className="w-full bg-surface-hover border border-border focus:border-primary-hover outline-none px-4 py-3 rounded-xl text-text-main transition"
                             >
                                 <option value={0}>Pending</option>
-                                <option value={1}>Completed</option>
-                                <option value={2}>In Progress</option>
+                                <option value={1}>In Progress</option>
+                                <option value={2}>Completed</option>
                             </select>
                         </div>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-text-muted mb-2">Due Date & Time</label>
+                        <label className="block text-sm font-medium text-text-muted mb-2">
+                            Due Date <span className="text-red-400">*</span>
+                        </label>
                         <input
-                            type="datetime-local"
+                            type="date"
                             value={dueDate}
                             onChange={(e) => setDueDate(e.target.value)}
                             className="w-full bg-surface-hover border border-border focus:border-primary-hover focus:ring-1 focus:ring-primary-hover outline-none px-4 py-3 rounded-xl text-text-main transition"
+                            required
                         />
                     </div>
 

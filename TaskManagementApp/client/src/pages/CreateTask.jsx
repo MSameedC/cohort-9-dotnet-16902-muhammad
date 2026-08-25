@@ -83,12 +83,13 @@ export default function CreateTask() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-text-muted mb-2">Due Date & Time</label>
+                        <label className="block text-sm font-medium text-text-muted mb-2">Due Date </label>
                         <input
-                            type="datetime-local"
+                            type="date"
                             value={dueDate}
                             onChange={(e) => setDueDate(e.target.value)}
                             className="w-full bg-surface-hover border border-border focus:border-primary-hover focus:ring-1 focus:ring-primary-hover outline-none px-4 py-3 rounded-xl text-text-main transition"
+                            required
                         />
                     </div>
 

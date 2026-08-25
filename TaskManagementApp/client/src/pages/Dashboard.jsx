@@ -146,7 +146,7 @@ export default function Dashboard() {
                                     )}
                                     {task.dueDate && (
                                         <p className="text-xs text-indigo-400 pt-1">
-                                            Due: {new Date(task.dueDate).toLocaleString()}
+                                            Due: {new Date(task.dueDate).toLocaleDateString()}
                                         </p>
                                     )}
                                 </div>

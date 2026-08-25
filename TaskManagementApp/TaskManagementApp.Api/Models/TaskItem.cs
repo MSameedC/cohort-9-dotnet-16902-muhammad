@@ -7,9 +7,9 @@ public class TaskItem
     public Guid Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public string? Description { get; set; }
-    public Status Status { get; set; } = Status.None;
+    public Status Status { get; set; } = Status.Pending;
     public Priority Priority { get; set; } = Priority.Normal;
-    public DateTime? DueDate { get; set; }
+    public DateTime DueDate { get; set; }
 
     // Foreign Key linking to user
     public Guid UserId { get; set; }

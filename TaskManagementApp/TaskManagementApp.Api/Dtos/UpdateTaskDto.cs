@@ -9,8 +9,8 @@ public class UpdateTaskDto
 
     public string? Description { get; set; } = string.Empty;
 
-    public Status Status { get; set; } = Status.None;
-    public Priority Priority { get; set; } = Priority.Low;
+    public Status Status { get; set; } = Status.Pending;
+    public Priority Priority { get; set; } = Priority.Normal;
 
-    public DateTime? DueDate { get; set; }
+    [Required] public DateTime DueDate { get; set; }
 }

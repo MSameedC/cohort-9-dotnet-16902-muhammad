@@ -11,5 +11,5 @@ public class CreateTaskDto
 
     public Priority Priority { get; set; } = Priority.Normal;
 
-    public DateTime? DueDate { get; set; }
+    [Required] public DateTime DueDate { get; set; }
 }
