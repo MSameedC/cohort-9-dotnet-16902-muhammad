@@ -15,8 +15,8 @@ export default function Dashboard() {
     const filteredTasks = tasks.filter((task) => {
         if (filter === 'All') return true;
         if (filter === 'Pending') return task.status === 0 || task.status === 'Pending';
-        if (filter === 'InProgress') return task.status === 2 || task.status === 'InProgress';
-        if (filter === 'Completed') return task.status === 1 || task.status === 'Completed';
+        if (filter === 'InProgress') return task.status === 1 || task.status === 'InProgress';
+        if (filter === 'Completed') return task.status === 2 || task.status === 'Completed';
         return true;
     });
 
