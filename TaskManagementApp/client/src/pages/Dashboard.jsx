@@ -7,10 +7,10 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('All'); // Options: 'All', 'Pending', 'InProgress', 'Completed'
     const navigate = useNavigate();
-
-    const completedCount = tasks.filter(t => t.status === 1 || t.status === 'Completed').length;
-    const inProgressCount = tasks.filter(t => t.status === 2 || t.status === 'InProgress').length;
+    
     const pendingCount = tasks.filter(t => t.status === 0 || t.status === 'Pending').length;
+    const inProgressCount = tasks.filter(t => t.status === 1 || t.status === 'InProgress').length;
+    const completedCount = tasks.filter(t => t.status === 2 || t.status === 'Completed').length;
 
     const filteredTasks = tasks.filter((task) => {
         if (filter === 'All') return true;
