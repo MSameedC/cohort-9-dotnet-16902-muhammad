@@ -5,12 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using TaskManagementApp.Api.Data;
-using TaskManagementApp.Api.Models;
 using TaskManagementApp.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add Serilog logger
+// 1. Serilog Setup
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
@@ -20,29 +19,29 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-// ----------------------
-
+// 2. Database Connection
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
 
+// 3. Application Services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<JwtTokenGenerator>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 
-// Add CORS Policy
+// 4. CORS Policy Registration (MUST BE BEFORE builder.Build())
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowReactApp",
-        policy =>
-        {
-            policy.SetIsOriginAllowed(_ => true).AllowAnyHeader().AllowAnyMethod().AllowCredentials();
-        });
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.SetIsOriginAllowed(origin => true) // Allows Vercel + Localhost
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
 });
 
-// ----------------------
-
+// 5. Authentication & JWT Configuration
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -57,32 +56,25 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateLifetime = true,
 
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]!)
+                Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"] ?? "DefaultSuperSecretKey1234567890TaskManagementApp!")
             ),
             ValidateIssuerSigningKey = true
         };
     });
 
-// ----------------------
-
+// ==========================================
+// BUILD APPLICATION (Service collection freezes here)
+// ==========================================
 var app = builder.Build();
 
-// ----------------------
-
-builder.Services.AddCors(options =>
+// 6. Ensure Database Schema Exists
+using (var scope = app.Services.CreateScope())
 {
-    options.AddPolicy("AllowReactApp", policy =>
-    {
-        policy.SetIsOriginAllowed(origin => true)
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
-    });
-});
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.EnsureCreated();
+}
 
-// ----------------------
-
-// Middleware MUST be placed right before app.UseCors or app.MapControllers in Program.cs
+// 7. Global Exception Handler Middleware
 app.UseExceptionHandler(errorApp =>
 {
     errorApp.Run(async context =>
@@ -93,29 +85,25 @@ app.UseExceptionHandler(errorApp =>
         var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
         var exception = exceptionHandlerPathFeature?.Error;
 
-        // Log the exception using Serilog
         Log.Error(exception, "An unhandled exception occurred during request execution.");
 
         await context.Response.WriteAsJsonAsync(new
         {
             message = "An unexpected error occurred. Please try again later.",
-            details = exception?.Message // Remove in strict production environments if needed
+            details = exception?.Message
         });
     });
 });
 
-// ----------------------
-
-// MUST be placed before UseAuthentication and MapControllers
+// 8. Pipeline Order (CORS -> Auth -> MapControllers)
 app.UseCors("AllowReactApp");
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-// ----------------------
-
 app.MapControllers();
 
+// 9. Run Application
 try
 {
     app.Run();
