@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using TaskManagementApp.Api.Data;
+using TaskManagementApp.Api.Models;
 using TaskManagementApp.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,9 +35,10 @@ builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
-        policy => policy.WithOrigins("http://localhost:5173")
-            .AllowAnyHeader()
-            .AllowAnyMethod());
+        policy =>
+        {
+            policy.SetIsOriginAllowed(_ => true).AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+        });
 });
 
 // ----------------------
@@ -67,11 +69,16 @@ var app = builder.Build();
 
 // ----------------------
 
-using (var scope = app.Services.CreateScope())
+builder.Services.AddCors(options =>
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    dbContext.Database.EnsureCreated();
-}
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.SetIsOriginAllowed(origin => true)
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
 
 // ----------------------
 

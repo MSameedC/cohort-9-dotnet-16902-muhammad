@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+// Prioritize the environment variable; fallback to localhost for local development
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5156/api';
+
 const api = axios.create({
-    baseURL: 'http://localhost:5156/api', // Replace with your .NET API URL
+    baseURL: API_BASE_URL,
     headers: {
         'Content-Type': 'application/json',
     },
