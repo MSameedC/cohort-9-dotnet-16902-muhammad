@@ -33,6 +33,17 @@ A full-stack task management application built with **ASP.NET Core 8 Web API** a
 
 ---
 
+## 🔍 Code Quality & Static Analysis
+
+This project integrates **SonarQube** to enforce clean code standards, detect bugs, and manage technical debt across the ASP.NET Core API and React frontend. 
+
+**Local Execution:**
+Analysis is triggered via a shell script at the project root:
+```bash
+./scan.sh
+
+---
+
 ## 🚀 Getting Started Locally
 
 ### Prerequisites
